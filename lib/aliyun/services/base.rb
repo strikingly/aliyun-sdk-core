@@ -27,6 +27,14 @@ module Aliyun
           super
         end
       end
+      
+      def respond_to?(method, include_private = false)
+        if service_actions.include?(method.to_sym)
+          true
+        else
+          super
+        end
+      end
 
       def base_url
         "#{request_schema}://#{request_host}"
