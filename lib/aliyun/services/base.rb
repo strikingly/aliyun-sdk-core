@@ -76,6 +76,18 @@ module Aliyun
         Aliyun::SignatureMethods[service_definition[:signature_method]]
       end
 
+      def service_definition
+        self.class.load_service_definition(name)
+      end
+
+      def service_actions
+        service_action_definitions.keys
+      end
+
+      def service_action_definitions
+        self.class.load_service_action_definitions(name)
+      end
+
       private
 
       def send_request(action, params)
@@ -137,18 +149,6 @@ module Aliyun
           'SignatureVersion'  => signature_method.version,
           'SignatureNonce'    => SecureRandom.uuid
         }
-      end
-
-      def service_definition
-        self.class.load_service_definition(name)
-      end
-
-      def service_actions
-        service_action_definitions.keys
-      end
-
-      def service_action_definitions
-        self.class.load_service_action_definitions(name)
       end
 
       def logger
